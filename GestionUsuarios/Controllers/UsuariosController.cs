@@ -11,11 +11,13 @@ namespace GestionUsuarios.Api.Controllers
     {
         private readonly IUsuarioServicio _usuarioServicio;
 
+        // Inicializa el controlador con el servicio de usuarios.
         public UsuariosController(IUsuarioServicio usuarioServicio)
         {
             _usuarioServicio = usuarioServicio;
         }
 
+        // Solicitud para listar todos los usuarios activos.
         [HttpGet]
         public async Task<IActionResult> ObtenerTodos()
         {
@@ -23,6 +25,7 @@ namespace GestionUsuarios.Api.Controllers
             return Ok(usuarios);
         }
 
+        // Solicitud para obtener un usuario por su id.
         [HttpGet("{idUsuario}")]
         public async Task<IActionResult> ObtenerPorId(int idUsuario)
         {
@@ -34,7 +37,8 @@ namespace GestionUsuarios.Api.Controllers
             return Ok(usuario);
         }
 
-        [HttpPost]
+        // Solicitud para crear un nuevo usuario.
+        [HttpPost]        
         public async Task<IActionResult> Crear([FromBody] CrearUsuarioDto usuarioDto)
         {
             var usuarioCreado = await _usuarioServicio.CrearAsync(usuarioDto);

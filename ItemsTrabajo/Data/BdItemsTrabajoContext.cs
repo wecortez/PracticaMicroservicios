@@ -5,10 +5,12 @@ namespace ItemsTrabajo.Api.Data;
 
 public partial class BdItemsTrabajoContext : DbContext
 {
+    // Inicializa una instancia vacía del contexto de ítems de trabajo.
     public BdItemsTrabajoContext()
     {
     }
 
+    // Inicializa el contexto de ítems de trabajo con opciones de configuración externas.
     public BdItemsTrabajoContext(DbContextOptions<BdItemsTrabajoContext> options)
         : base(options)
     {
@@ -16,10 +18,12 @@ public partial class BdItemsTrabajoContext : DbContext
 
     public virtual DbSet<ItemTrabajo> ItemsTrabajos { get; set; }
 
+    // Configura la conexión a la base de datos cuando no se recibe desde la inyección de dependencias.
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=.;Database=BD_ItemsTrabajo;Trusted_Connection=True;TrustServerCertificate=True;");
 
+    // Configura el mapeo de la entidad ItemTrabajo con la tabla y sus columnas.
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ItemTrabajo>(entity =>
@@ -42,5 +46,6 @@ public partial class BdItemsTrabajoContext : DbContext
         OnModelCreatingPartial(modelBuilder);
     }
 
+    // Permite extender la configuración del modelo desde otra definición parcial.
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

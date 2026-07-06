@@ -9,11 +9,13 @@ namespace GestionUsuarios.Api.Repositorios
     {
         private readonly BdGestionUsuariosContext _contexto;
 
+        // Inicializa el repositorio con el contexto de base de datos de usuarios.
         public UsuarioRepositorio(BdGestionUsuariosContext contexto)
         {
             _contexto = contexto;
         }
 
+        // Consulta todos los usuarios que se encuentran activos.
         public async Task<List<Usuario>> ObtenerTodosAsync()
         {
             return await _contexto.Usuarios
@@ -21,12 +23,14 @@ namespace GestionUsuarios.Api.Repositorios
                 .ToListAsync();
         }
 
+        // Consulta un usuario activo por su identificador.
         public async Task<Usuario?> ObtenerPorIdAsync(int idUsuario)
         {
             return await _contexto.Usuarios
                 .FirstOrDefaultAsync(u => u.IdUsuario == idUsuario && u.EstaActivo == true);
         }
 
+        // Guarda un nuevo usuario en la base de datos.
         public async Task<Usuario> CrearAsync(Usuario usuario)
         {
             _contexto.Usuarios.Add(usuario);
@@ -34,6 +38,7 @@ namespace GestionUsuarios.Api.Repositorios
             return usuario;
         }
 
+        // Verifica si existe un usuario activo con el identificador indicado.
         public async Task<bool> ExisteUsuarioAsync(int idUsuario)
         {
             return await _contexto.Usuarios

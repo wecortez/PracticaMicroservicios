@@ -10,22 +10,26 @@ namespace ItemsTrabajo.Api.Servicios
         private readonly IItemTrabajoRepositorio _itemTrabajoRepositorio;
         private readonly IUsuarioClienteHttp _usuarioClienteHttp;
 
+        // Inicializa el servicio con el repositorio de ítems y el cliente HTTP de usuarios.
         public ItemTrabajoServicio(IItemTrabajoRepositorio itemTrabajoRepositorio, IUsuarioClienteHttp usuarioClienteHttp)
         {
             _itemTrabajoRepositorio = itemTrabajoRepositorio;
             _usuarioClienteHttp = usuarioClienteHttp;
         }
 
+        // Obtiene todos los ítems de trabajo registrados.
         public async Task<List<ItemTrabajo>> ObtenerTodosAsync()
         {
             return await _itemTrabajoRepositorio.ObtenerTodosAsync();
         }
 
+        // Busca un ítem de trabajo por su identificador.
         public async Task<ItemTrabajo?> ObtenerPorIdAsync(int idItemTrabajo)
         {
             return await _itemTrabajoRepositorio.ObtenerPorIdAsync(idItemTrabajo);
         }
 
+        // Crea un ítem de trabajo y lo asigna automáticamente a un usuario disponible.
         public async Task<ItemTrabajo> CrearAsync(CrearItemTrabajoDto itemTrabajoDto)
         {
             // Se obtiene la lista de usuarios activos desde el microservicio GestionUsuarios.Api.
@@ -51,6 +55,7 @@ namespace ItemsTrabajo.Api.Servicios
             return await _itemTrabajoRepositorio.CrearAsync(itemTrabajo);
         }
 
+        // Determina el usuario más adecuado para recibir el nuevo ítem según carga, relevancia y fecha de entrega.
         private async Task<int> ObtenerUsuarioParaAsignacionAsync(List<UsuarioDto> usuariosActivos, CrearItemTrabajoDto itemTrabajoDto)
         {
             var fechaActual = DateTime.Now.Date;
@@ -111,12 +116,14 @@ namespace ItemsTrabajo.Api.Servicios
                 .First();
         }
 
+        // Marca un ítem de trabajo como completado mediante el repositorio.
         public async Task<bool> MarcarComoCompletadoAsync(int idItemTrabajo)
         {
             // Se delega al repositorio la actualización del estado del ítem de trabajo.
             return await _itemTrabajoRepositorio.MarcarComoCompletadoAsync(idItemTrabajo);
         }
 
+        // Genera el resumen de ítems pendientes agrupados por usuario asignado.
         public async Task<List<PendientesPorUsuarioDto>> ObtenerPendientesPorUsuarioAsync()
         {
             // Se obtiene la lista ordenada de pendientes desde la base de datos.

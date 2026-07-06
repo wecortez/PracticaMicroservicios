@@ -11,18 +11,21 @@ namespace ItemsTrabajo.Api.Controllers
     {
         private readonly IItemTrabajoServicio _itemTrabajoServicio;
 
+        // Inicializa el controlador con el servicio de ítems de trabajo.
         public ItemsTrabajoController(IItemTrabajoServicio itemTrabajoServicio)
         {
             _itemTrabajoServicio = itemTrabajoServicio;
         }
 
-        [HttpGet]
+        // Solicitud para listar todos los ítems de trabajo.
+        [HttpGet]        
         public async Task<IActionResult> ObtenerTodos()
         {
             var itemsTrabajo = await _itemTrabajoServicio.ObtenerTodosAsync();
             return Ok(itemsTrabajo);
         }
 
+        // Solicitud para obtener un ítem de trabajo por su identificador.
         [HttpGet("{idItemTrabajo}")]
         public async Task<IActionResult> ObtenerPorId(int idItemTrabajo)
         {
@@ -34,6 +37,7 @@ namespace ItemsTrabajo.Api.Controllers
             return Ok(itemTrabajo);
         }
 
+        // Solicitud para crear un nuevo ítem de trabajo.
         [HttpPost]
         public async Task<IActionResult> Crear([FromBody] CrearItemTrabajoDto itemTrabajoDto)
         {
@@ -46,6 +50,7 @@ namespace ItemsTrabajo.Api.Controllers
             );
         }
 
+        // Solicitud para marcar un ítem de trabajo como completado.
         [HttpPut("{idItemTrabajo}/completar")]
         public async Task<IActionResult> MarcarComoCompletado(int idItemTrabajo)
         {
@@ -58,6 +63,7 @@ namespace ItemsTrabajo.Api.Controllers
             return Ok("Ítem de trabajo marcado como completado correctamente.");
         }
 
+        // Solicitud para consultar los pendientes agrupados por usuario.
         [HttpGet("pendientes-por-usuario")]
         public async Task<IActionResult> ObtenerPendientesPorUsuario()
         {
